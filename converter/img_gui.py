@@ -39,6 +39,17 @@ def gui(page: ft.Page):
     page.window.height = 600
     page.window.resizable = False
 
+    def on_file_selected(e: ft.FilePickerResultEvent):
+        if e.files:
+            directory = e.files[0].path
+            print(f"Директория: {directory}")
+            user_path.value = directory
+            page.update()
+        else:
+            print('File pick canceled')
+        
+    file_picker = ft.FilePicker(on_result=on_file_selected)
+    page.overlay.append(file_picker)
 
     def pix_action(e):
         path = user_path.value
@@ -59,7 +70,8 @@ def gui(page: ft.Page):
     user_path = ft.TextField(label="Путь")
     etnr_btn = ft.IconButton(ft.Icons.CALL_TO_ACTION_ROUNDED, width=50, on_click=pix_action)
     del_btn = ft.TextButton("Очистить поле ввода", on_click=eras)
-    copy_btn = ft.IconButton(ft.Icons.COPY, on_click = cop)
+    copy_btn = ft.IconButton(ft.Icons.COPY, on_click=cop)
+    file_picker_btn = ft.IconButton(ft.Icons.FILE_OPEN, on_click=lambda _: file_picker.pick_files(allow_multiple=False))
 
     page.add(
         ft.Row(
@@ -88,8 +100,15 @@ def gui(page: ft.Page):
             ],
             alignment=ft.MainAxisAlignment.CENTER
         )
+    ),
+
+    page.add(
+        ft.Row(
+            [
+                file_picker_btn
+            ],
+            alignment=ft.MainAxisAlignment.CENTER
+        )
     )
 
 ft.app(target=gui)
-
-print('hello niggers')
