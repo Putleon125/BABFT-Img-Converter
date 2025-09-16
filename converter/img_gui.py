@@ -35,8 +35,8 @@ def gui(page: ft.Page):
     page.title = "img_gui"
     page.theme_mode = "dark"
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
-    page.window.width = 590
-    page.window.height = 600
+    page.window.width = 500
+    page.window.height = 200
     page.window.resizable = False
     page.bgcolor = ft.Colors.GREY_900
 
@@ -57,22 +57,56 @@ def gui(page: ft.Page):
         if path.startswith('"') and path.endswith('"'):
             path = path[1:-1]
         pixels(path)
+        copy(e)
 
-    def eras(e):
+    def erase(e):
         user_path.value = ''
         page.update()
     
-    def cop(e):
+    def copy(e):
         with open("pixels.txt", 'r', encoding='utf-8') as file:
             content = file.read()
         
         pyperclip.copy(content)
 
-    user_path = ft.TextField(label="Путь")
-    etnr_btn = ft.IconButton(ft.Icons.CALL_TO_ACTION_ROUNDED, width=50, on_click=pix_action)
-    del_btn = ft.TextButton("Очистить поле ввода", on_click=eras)
-    copy_btn = ft.IconButton(ft.Icons.COPY, on_click=cop)
-    file_picker_btn = ft.IconButton(ft.Icons.FILE_OPEN, on_click=lambda _: file_picker.pick_files(allow_multiple=False))
+    user_path = ft.TextField(label="Путь", 
+                             width=300, 
+                             border_color="Grey", 
+                             cursor_color="Grey")
+
+    enter_btn = ft.IconButton(ft.Icons.CALL_TO_ACTION_ROUNDED, 
+                              icon_color="White", 
+                              style=ft.ButtonStyle(side=ft.BorderSide(width=2, color=ft.Colors.GREY)), 
+                              on_click=pix_action)
+
+    del_btn = ft.TextButton(text="Очистить поле ввода", 
+                            style=ft.ButtonStyle(color=ft.Colors.WHITE, text_style=ft.TextStyle(font_family="Comic Sans MS"), side=ft.BorderSide(width=2, color=ft.Colors.GREY)), 
+                            on_click=erase)
+
+    file_picker_btn = ft.IconButton(ft.Icons.FILE_OPEN, 
+                                    icon_color="White", 
+                                    style=ft.ButtonStyle(side=ft.BorderSide(width=2, color=ft.Colors.GREY)), 
+                                    on_click=lambda _: file_picker.pick_files(allow_multiple=False))
+
+    page.add(
+        ft.Row(
+            [
+                ft.Text("Путь до картинки", font_family="Comic Sans MS", size=16)
+            ],
+            alignment=ft.MainAxisAlignment.CENTER
+        )
+    ),
+
+    page.add(
+        ft.Row(
+            [
+                file_picker_btn,
+                user_path,
+                enter_btn
+            ],
+            alignment=ft.MainAxisAlignment.CENTER
+        )
+    ),
 
     page.add(
         ft.Row(
@@ -82,27 +116,6 @@ def gui(page: ft.Page):
             alignment=ft.MainAxisAlignment.CENTER
         )
     ),
-
-    page.add(
-        ft.Row(
-            [
-                ft.Text("Путь до картинки", font_family="Comic Sans MS", size=16),
-                file_picker_btn,
-                user_path,
-                etnr_btn
-            ],
-            alignment=ft.MainAxisAlignment.CENTER
-        )
-    ),
-
-    page.add(
-        ft.Row(
-            [
-                copy_btn
-            ],
-            alignment=ft.MainAxisAlignment.CENTER
-        )
-    )
 
 
 ft.app(target=gui)
