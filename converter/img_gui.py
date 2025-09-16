@@ -35,9 +35,10 @@ def gui(page: ft.Page):
     page.title = "img_gui"
     page.theme_mode = "dark"
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
-    page.window.width = 550
+    page.window.width = 590
     page.window.height = 600
     page.window.resizable = False
+    page.bgcolor = ft.Colors.GREY_900
 
     def on_file_selected(e: ft.FilePickerResultEvent):
         if e.files:
@@ -85,7 +86,8 @@ def gui(page: ft.Page):
     page.add(
         ft.Row(
             [
-                ft.Text("Путь до картинки"),
+                ft.Text("Путь до картинки", font_family="Comic Sans MS", size=16),
+                file_picker_btn,
                 user_path,
                 etnr_btn
             ],
@@ -100,15 +102,7 @@ def gui(page: ft.Page):
             ],
             alignment=ft.MainAxisAlignment.CENTER
         )
-    ),
-
-    page.add(
-        ft.Row(
-            [
-                file_picker_btn
-            ],
-            alignment=ft.MainAxisAlignment.CENTER
-        )
     )
+
 
 ft.app(target=gui)
