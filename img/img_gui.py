@@ -92,3 +92,4 @@ def gui(page: ft.Page):
 
 ft.app(target=gui)
 
+print('hello ni-')
