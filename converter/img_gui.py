@@ -39,6 +39,7 @@ def gui(page: ft.Page):
     page.window.height = 200
     page.window.resizable = False
     page.bgcolor = ft.Colors.GREY_900
+    page.window.center()
 
     def on_file_selected(e: ft.FilePickerResultEvent):
         if e.files:
