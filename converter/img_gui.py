@@ -5,13 +5,13 @@ import pyperclip
 
 def pixels(path):
     if not os.path.exists(path):
-        print('Такого файла не существует')
+        print('File does not exist')
         return
 
     try:
         image = Image.open(path)
         width, height = image.size
-        print(f"Размер изображения: {width}x{height}")
+        print(f"Image size: {width}x{height}")
 
         pix=[]
 
@@ -26,7 +26,7 @@ def pixels(path):
             output.write("\n".join(pix))
 
     except Exception as e:
-        print(f"Произошла ошибка {e}")
+        print(f"Error occured: {e}")
     return
 
 
@@ -44,7 +44,7 @@ def gui(page: ft.Page):
     def on_file_selected(e: ft.FilePickerResultEvent):
         if e.files:
             directory = e.files[0].path
-            print(f"Директория: {directory}")
+            print(f"Directory: {directory}")
             user_path.value = directory
             page.update()
         else:
@@ -70,7 +70,7 @@ def gui(page: ft.Page):
         
         pyperclip.copy(content)
 
-    user_path = ft.TextField(label="Путь", 
+    user_path = ft.TextField(label="Directory", 
                              width=300, 
                              border_color="Grey", 
                              cursor_color="Grey")
@@ -80,7 +80,7 @@ def gui(page: ft.Page):
                               style=ft.ButtonStyle(side=ft.BorderSide(width=2, color=ft.Colors.GREY)), 
                               on_click=pix_action)
 
-    del_btn = ft.TextButton(text="Очистить поле ввода", 
+    del_btn = ft.TextButton(text="Clear the input", 
                             style=ft.ButtonStyle(color=ft.Colors.WHITE, text_style=ft.TextStyle(font_family="Comic Sans MS"), side=ft.BorderSide(width=2, color=ft.Colors.GREY)), 
                             on_click=erase)
 
@@ -92,7 +92,7 @@ def gui(page: ft.Page):
     page.add(
         ft.Row(
             [
-                ft.Text("Путь до картинки", font_family="Comic Sans MS", size=16)
+                ft.Text("Image directory:", font_family="Comic Sans MS", size=16)
             ],
             alignment=ft.MainAxisAlignment.CENTER
         )
