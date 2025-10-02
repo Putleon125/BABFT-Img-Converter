@@ -1,18 +1,11 @@
-import flet as ft
+string = str(input('Input string: '))
 
-def main(page: ft.Page):
-    # TextButton с измененным шрифтом
-    custom_font_button = ft.TextButton(
-        text="Кнопка с другим шрифтом",
-        style=ft.ButtonStyle(
-            text_style=ft.TextStyle(
-                font_family="Arial",  # Название шрифта
-                size=16,              # Размер текста
-                weight=ft.FontWeight.BOLD  # Жирность
-            )
-        )
-    )
-    
-    page.add(custom_font_button)
+def str_to_hex(string):
+    bytes_data = string.encode('utf-8')
+    hex_data = bytes_data.hex()
+    return hex_data
 
-ft.app(target=main)
+hex_string = str_to_hex(string)
+
+print(f'Original text = {string}')
+print(f'Hex encoded: {hex_string}')

@@ -3,27 +3,49 @@ from PIL import Image
 import os
 import pyperclip
 
-def pixels(path):
+def pixel_to_hex(x, y, color, width, height):
+    r, g, b = color[:3]
+    if width > 255 or height > 255:
+        hex_x = f'{x:04X}'
+        hex_y = f'{y:04X}'
+    else:
+        hex_x = f'{x:02X}'
+        hex_y = f'{y:02X}'
+
+    hex_r = f'{r:02X}'
+    hex_g = f'{g:02X}'
+    hex_b = f'{b:02X}'
+    return hex_x + hex_y + hex_r + hex_g + hex_b
+
+def pixels(path): #main function
     if not os.path.exists(path):
         print('File does not exist')
         return
 
     try:
+        chunks = []
         image = Image.open(path)
         width, height = image.size
         print(f"Image size: {width}x{height}")
 
-        pix=[]
+        hex_pixels = []
 
         for x in range(width):
             for y in range(height):
 
                 rgb_pixel = image.getpixel((x, y))
+                
+                hex_string = pixel_to_hex(x, y, rgb_pixel, width, height)
 
-                pix.append(f"({x}, {y}): {rgb_pixel}")
+                hex_pixels.append(hex_string)
+        
+        full_hex_data = ''.join(hex_pixels)
 
         with open("pixels.txt", "w", encoding='utf-8') as output:
-            output.write("\n".join(pix))
+            output.write(full_hex_data)
+
+        print(f'Hex_data saved. Total characters: {len(full_hex_data)}')
+        print(f'Total pixels: {len(hex_pixels)}')
 
     except Exception as e:
         print(f"Error occured: {e}")
@@ -92,7 +114,7 @@ def gui(page: ft.Page):
     page.add(
         ft.Row(
             [
-                ft.Text("Image directory:", font_family="Comic Sans MS", size=16)
+                ft.Text("Choose the image directory:", font_family="Comic Sans MS", size=16)
             ],
             alignment=ft.MainAxisAlignment.CENTER
         )
